@@ -18,7 +18,6 @@ object TicTacToe {
   val blankList = List.fill(3)(MoveType.Blank)
   var grid:List[List[MoveType.Value]] = List.fill(3)(blankList)
 
-
   //create a tic-tac-toe game
   //have computer play itself
   //store the results (file IO)
@@ -43,23 +42,34 @@ object TicTacToe {
     }
     //exit here.
 
-
     //start loop
     var moveNumber = 1
     var winnerFound = false
     while(moveNumber <= 9 && !winnerFound){
 
-      val modulo = moveNumber % 0
+      val modulo = moveNumber % 2
+      println("Move number "+moveNumber+".")
       if(modulo > 0){
         //player 1
+
+        println("Make your move, Player 1")
         makeMove(player1Move)
       }
       else {
         //player 2
+        println("Make your move, Player 2")
         makeMove(player2Move)
       }
 
+
       //check for winner
+      winnerFound = checkForWinner()
+      if(winnerFound){
+        println("We found a winner!")
+      }
+
+
+      moveNumber += 1
 
       //exit the loop
       //program over
@@ -72,24 +82,32 @@ object TicTacToe {
   //make move for the player.
   def makeMove(move:MoveType.Value): Unit ={
 
-    println("Please indicate what row,column you want to put the mark")
+    println("Please indicate what row,column you want to put the mark (1,2,3)")
 
     //TODO: Error handling
     val coordinates = readLine().split(",")
-    val rowCoord = coordinates(0).toInt
-    val colCoord = coordinates(1).toInt
+    val rowCoord = coordinates(0).toInt - 1
+    val colCoord = coordinates(1).toInt - 1
 
     //store move in array
+    //TODO: make sure we don't overwrite a non-blank value
     val row = grid(rowCoord)
     val updatedRow = row.updated(colCoord,move)
+
+    val updatedGrid = grid.updated(rowCoord,updatedRow)
+
+    grid = updatedGrid
+    println(grid)
   }
 
-  def checkForWinner(grid: List[List[MoveType]]):Boolean =
-    (grid(0)(0) == grid(0)(1) && grid(0)(0) == grid(0)(2)) ||
-      (grid(1)(0) == grid(1)(1) && grid(1)(0) == grid(1)(2)) ||
-      (grid(2)(0) == grid(2)(1) && grid(2)(0) == grid(2)(2)) ||
-      (grid(0)(0) == grid(1)(1) && grid(0)(0) == grid(2)(2)) ||
-      (grid(2)(0) == grid(1)(1) && grid(2)(0) == grid(0)(2))
+  def checkForWinner():Boolean =
+
+
+    (grid(0)(0) == grid(0)(1) && grid(0)(0) == grid(0)(2) && grid(0)(0) != MoveType.Blank) ||
+      (grid(1)(0) == grid(1)(1) && grid(1)(0) == grid(1)(2) && grid(1)(0) != MoveType.Blank) ||
+      (grid(2)(0) == grid(2)(1) && grid(2)(0) == grid(2)(2) && grid(2)(0) != MoveType.Blank) ||
+      (grid(0)(0) == grid(1)(1) && grid(0)(0) == grid(2)(2) && grid(0)(0) != MoveType.Blank) ||
+      (grid(2)(0) == grid(1)(1) && grid(2)(0) == grid(0)(2) && grid(2)(0) != MoveType.Blank)
   }
 
 }
