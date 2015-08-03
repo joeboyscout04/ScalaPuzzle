@@ -28,51 +28,33 @@ object TicTacToe {
 
   def startTicTacToe =  {
 
-    println("Player 1:  Choose your Mark (X,O)")
-    val player1Input = readLine().toUpperCase()
-    var player1Move = MoveType.Blank
-    var player2Move = MoveType.Blank
-    val playerMoveTypeBox = nonBlankMoves.find(_.toString == player1Input)
-    if(playerMoveTypeBox.isDefined) {
-        player1Move = playerMoveTypeBox.get
-        player2Move = nonBlankMoves.filterNot(_ == player1Move).head
-    }
-    else {
-      println("Incorrect mark type selected!  Please choose X or O.")
-    }
-    //exit here.
-
     //start loop
     var moveNumber = 1
     var winnerFound = false
     while(moveNumber <= 9 && !winnerFound){
 
       val modulo = moveNumber % 2
+      var currentPlayer = MoveType.Blank
       println("Move number "+moveNumber+".")
       if(modulo > 0){
         //player 1
-
-        println("Make your move, Player 1")
-        makeMove(player1Move)
+        currentPlayer = MoveType.X
       }
       else {
         //player 2
-        println("Make your move, Player 2")
-        makeMove(player2Move)
+        currentPlayer = MoveType.O
       }
 
-
+      println("Make your move, Player "+currentPlayer.toString)
+      makeMove(currentPlayer)
       //check for winner
       winnerFound = checkForWinner()
       if(winnerFound){
         println("We found a winner!")
+        println("The winner was "+currentPlayer.toString+"!")
       }
 
-
       moveNumber += 1
-
-      //exit the loop
-      //program over
     }
 
     //program over
