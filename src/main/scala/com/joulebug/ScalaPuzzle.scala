@@ -111,7 +111,7 @@ object TicTacToe {
 
     grid = updatedGrid
     grid.foreach(row=>{
-      println(row.f)
+      println(row.toString)
     })
   }
 
