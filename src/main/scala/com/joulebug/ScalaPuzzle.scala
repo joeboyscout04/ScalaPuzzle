@@ -82,12 +82,25 @@ object TicTacToe {
   //make move for the player.
   def makeMove(move:MoveType.Value): Unit ={
 
-    println("Please indicate what row,column you want to put the mark (1,2,3)")
+    var validMove = false
+    var rowCoord = -1
+    var colCoord = -1
+    while(!validMove) {
+      println("Please indicate what row,column you want to put the mark (1,2,3)")
 
-    //TODO: Error handling
-    val coordinates = readLine().split(",")
-    val rowCoord = coordinates(0).toInt - 1
-    val colCoord = coordinates(1).toInt - 1
+      //TODO: Error handling
+      val coordinates = readLine().split(",")
+      rowCoord = coordinates(0).toInt - 1
+      colCoord = coordinates(1).toInt - 1
+
+      var movePoint = grid(rowCoord)(colCoord)
+      if(movePoint == MoveType.Blank){
+        validMove = true
+      }
+      else {
+        println("Sorry, that spot is already taken.  Please try again.")
+      }
+    }
 
     //store move in array
     //TODO: make sure we don't overwrite a non-blank value
@@ -97,11 +110,12 @@ object TicTacToe {
     val updatedGrid = grid.updated(rowCoord,updatedRow)
 
     grid = updatedGrid
-    println(grid)
+    grid.foreach(row=>{
+      println(row.f)
+    })
   }
 
   def checkForWinner():Boolean =
-
 
     (grid(0)(0) == grid(0)(1) && grid(0)(0) == grid(0)(2) && grid(0)(0) != MoveType.Blank) ||
       (grid(1)(0) == grid(1)(1) && grid(1)(0) == grid(1)(2) && grid(1)(0) != MoveType.Blank) ||
