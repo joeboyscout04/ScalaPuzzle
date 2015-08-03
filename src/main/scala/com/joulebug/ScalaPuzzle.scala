@@ -26,17 +26,17 @@ object TicTacToe {
 
   val nonBlankMoves = MoveType.values.filterNot(_ == MoveType.Blank)
 
-  def startTicTacToe =  {
+  def startTicTacToe = {
 
     //start loop
     var moveNumber = 1
     var winnerFound = false
-    while(moveNumber <= 9 && !winnerFound){
+    while (moveNumber <= 9 && !winnerFound) {
 
       val modulo = moveNumber % 2
       var currentPlayer = MoveType.Blank
-      println("Move number "+moveNumber+".")
-      if(modulo > 0){
+      println("Move number " + moveNumber + ".")
+      if (modulo > 0) {
         //player 1
         currentPlayer = MoveType.X
       }
@@ -45,13 +45,13 @@ object TicTacToe {
         currentPlayer = MoveType.O
       }
 
-      println("Make your move, Player "+currentPlayer.toString)
+      println("Make your move, Player " + currentPlayer.toString)
       makeMove(currentPlayer)
       //check for winner
       winnerFound = checkForWinner()
-      if(winnerFound){
+      if (winnerFound) {
         println("We found a winner!")
-        println("The winner was "+currentPlayer.toString+"!")
+        println("The winner was " + currentPlayer.toString + "!")
       }
 
       moveNumber += 1
@@ -59,7 +59,7 @@ object TicTacToe {
 
     //program over
     println("We're done!  Thanks for playing!")
-
+  }
 
   //make move for the player.
   def makeMove(move:MoveType.Value): Unit ={
@@ -97,7 +97,7 @@ object TicTacToe {
     })
   }
 
-  def checkForWinner():Boolean =
+  def checkForWinner():Boolean = {
 
     (grid(0)(0) == grid(0)(1) && grid(0)(0) == grid(0)(2) && grid(0)(0) != MoveType.Blank) ||
       (grid(1)(0) == grid(1)(1) && grid(1)(0) == grid(1)(2) && grid(1)(0) != MoveType.Blank) ||
