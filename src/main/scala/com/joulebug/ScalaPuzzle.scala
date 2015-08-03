@@ -16,7 +16,7 @@ object TicTacToe {
 
 
   val blankList = List.fill(3)(MoveType.Blank)
-  val grid:List[List[MoveType.Value]] = List.fill(3)(blankList)
+  var grid:List[List[MoveType.Value]] = List.fill(3)(blankList)
 
 
   //create a tic-tac-toe game
@@ -44,41 +44,43 @@ object TicTacToe {
     //exit here.
 
 
-
     //start loop
     var moveNumber = 1
     var winnerFound = false
-    while(moveNumber<9 && !winnerFound){
+    while(moveNumber <= 9 && !winnerFound){
 
 
+      //make move
+      //store move in array
+      //check for winner
+      //exit the loop
+      //program over
+      makeMove()
     }
 
 
-    //make move
-    //store move in array
-    //check for winner
-    //exit the loop
-    //program over
-
   }
 
-  def makeMove(move:MoveType,row:Int,col:Int): Unit ={
+  def makeMove(move:MoveType.Value): Unit ={
 
     println("Please indicate what row,column you want to put the mark")
+
+    //TODO: Error handling
     val coordinates = readLine().split(",")
     val rowCoord = coordinates(0).toInt
     val colCoord = coordinates(1).toInt
 
     val row = grid(rowCoord)
+    val updatedRow = row.updated(colCoord,move)
 
+    val updatedGrid = grid.updated(rowCoord,updatedRow)
+
+    grid = updatedGrid
   }
 
   def checkForWinner:Boolean = {
 
-  }
-
-  def checkForFull:Boolean = {
-
+    false
   }
 
 
