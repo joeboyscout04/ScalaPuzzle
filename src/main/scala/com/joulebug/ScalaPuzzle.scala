@@ -63,12 +63,13 @@ object TicTacToe {
 
 
       //exit the loop
+      //program over
+      makeMove()
     }
 
     //program over
     println("We're done!  Thanks for playing!")
 
-  }
 
   //make move for the player.
   def makeMove(move:MoveType.Value): Unit ={
@@ -83,19 +84,23 @@ object TicTacToe {
     //store move in array
     val row = grid(rowCoord)
     val updatedRow = row.updated(colCoord,move)
-
-    val updatedGrid = grid.updated(rowCoord,updatedRow)
-
-    grid = updatedGrid
   }
+
+
+  def checkForWinner(grid: List[List[MoveType]]):Boolean =
+    (grid(0)(0) == grid(0)(1) && grid(0)(0) == grid(0)(2)) ||
+      (grid(1)(0) == grid(1)(1) && grid(1)(0) == grid(1)(2)) ||
+      (grid(2)(0) == grid(2)(1) && grid(2)(0) == grid(2)(2)) ||
+      (grid(0)(0) == grid(1)(1) && grid(0)(0) == grid(2)(2)) ||
+      (grid(2)(0) == grid(1)(1) && grid(2)(0) == grid(0)(2))
+  }
+
+
+  val updatedGrid = grid.updated(rowCoord,updatedRow)
+
+  grid = updatedGrid
 
   def checkForWinner:Boolean = {
-
     false
   }
-
-
-
-
-
 }
