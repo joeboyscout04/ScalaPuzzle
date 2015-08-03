@@ -49,18 +49,28 @@ object TicTacToe {
     var winnerFound = false
     while(moveNumber <= 9 && !winnerFound){
 
+      val modulo = moveNumber % 0
+      if(modulo > 0){
+        //player 1
+        makeMove(player1Move)
+      }
+      else {
+        //player 2
+        makeMove(player2Move)
+      }
 
-      //make move
-      //store move in array
       //check for winner
+
+
       //exit the loop
-      //program over
-      makeMove()
     }
 
+    //program over
+    println("We're done!  Thanks for playing!")
 
   }
 
+  //make move for the player.
   def makeMove(move:MoveType.Value): Unit ={
 
     println("Please indicate what row,column you want to put the mark")
@@ -70,6 +80,7 @@ object TicTacToe {
     val rowCoord = coordinates(0).toInt
     val colCoord = coordinates(1).toInt
 
+    //store move in array
     val row = grid(rowCoord)
     val updatedRow = row.updated(colCoord,move)
 
