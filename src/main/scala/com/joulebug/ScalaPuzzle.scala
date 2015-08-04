@@ -2,6 +2,8 @@ package com.joulebug
 
 import com.joulebug.MoveType.MoveType
 
+import scala.util.Random
+
 
 /**
  * Created by josephelliott on 8/3/15.
@@ -26,7 +28,7 @@ object TicTacToe {
 
   val nonBlankMoves = MoveType.values.filterNot(_ == MoveType.Blank)
 
-  def startTicTacToe = {
+  def startTicTacToe() {
 
     //start loop
     var moveNumber = 1
@@ -63,26 +65,35 @@ object TicTacToe {
 
   //make move for the player.
   def makeMove(move:MoveType.Value): Unit ={
-
-    var validMove = false
     var rowCoord = -1
     var colCoord = -1
-    while(!validMove) {
-      println("Please indicate what row,column you want to put the mark (1,2,3)")
 
-      //TODO: Error handling
-      val coordinates = readLine().split(",")
-      rowCoord = coordinates(0).toInt - 1
-      colCoord = coordinates(1).toInt - 1
+    //list the valid coordinates
+    var validCoordinates:List[(Int,Int)] = List()
 
-      var movePoint = grid(rowCoord)(colCoord)
-      if(movePoint == MoveType.Blank){
-        validMove = true
-      }
-      else {
-        println("Sorry, that spot is already taken.  Please try again.")
-      }
+    var rowNum = 0
+
+    grid.foreach(row=>{
+      var colNum = 0
+      row.foreach(col=>{
+        if(col == MoveType.Blank){
+          validCoordinates +:= (rowNum,colNum)
+        }
+        colNum +=1
+      })
+      rowNum +=1
+    })
+
+    //pick a random one from the valid list.
+    val randomCoord = Random.shuffle(validCoordinates).headOption
+    if(randomCoord.isDefined){
+      rowCoord = randomCoord.get._1
+      colCoord = randomCoord.get._2
     }
+    else {
+      println("Something went wrong!")
+    }
+
 
     //store move in array
     //TODO: make sure we don't overwrite a non-blank value
@@ -99,6 +110,7 @@ object TicTacToe {
 
   def checkForWinner():Boolean = {
 
+    println("Check for winner")
     (grid(0)(0) == grid(0)(1) && grid(0)(0) == grid(0)(2) && grid(0)(0) != MoveType.Blank) ||
       (grid(1)(0) == grid(1)(1) && grid(1)(0) == grid(1)(2) && grid(1)(0) != MoveType.Blank) ||
       (grid(2)(0) == grid(2)(1) && grid(2)(0) == grid(2)(2) && grid(2)(0) != MoveType.Blank) ||
