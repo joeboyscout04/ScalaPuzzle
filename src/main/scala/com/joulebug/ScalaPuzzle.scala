@@ -20,6 +20,10 @@ object TicTacToe {
   val blankList = List.fill(3)(MoveType.Blank)
   var grid:List[List[MoveType.Value]] = List.fill(3)(blankList)
 
+  def initializeGrid() {
+    grid = List.fill(3)(blankList)
+  }
+
   //create a tic-tac-toe game
   //have computer play itself
   //store the results (file IO)
@@ -61,6 +65,7 @@ object TicTacToe {
 
     //program over
     println("We're done!  Thanks for playing!")
+    initializeGrid()
   }
 
   //make move for the player.
