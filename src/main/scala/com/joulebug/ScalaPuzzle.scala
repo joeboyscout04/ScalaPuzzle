@@ -67,7 +67,7 @@ object TicTacToe {
   def makeMove(move:MoveType.Value): Unit ={
     var rowCoord = -1
     var colCoord = -1
-    
+
     //list the valid coordinates
     var validCoordinates:List[(Int,Int)] = List()
 
@@ -116,6 +116,8 @@ object TicTacToe {
       (grid(2)(0) == grid(2)(1) && grid(2)(0) == grid(2)(2) && grid(2)(0) != MoveType.Blank) ||
       (grid(0)(0) == grid(1)(1) && grid(0)(0) == grid(2)(2) && grid(0)(0) != MoveType.Blank) ||
       (grid(0)(1) == grid(1)(1) && grid(0)(1) == grid(2)(1) && grid(0)(1) != MoveType.Blank) ||
+      (grid(0)(0) == grid(1)(0) && grid(0)(0) == grid(2)(0) && grid(0)(0) != MoveType.Blank) ||
+      (grid(0)(2) == grid(1)(2) && grid(0)(2) == grid(2)(2) && grid(0)(2) != MoveType.Blank) ||
       (grid(2)(0) == grid(1)(1) && grid(2)(0) == grid(0)(2) && grid(2)(0) != MoveType.Blank)
   }
 
