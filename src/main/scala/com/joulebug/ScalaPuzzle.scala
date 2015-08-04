@@ -1,7 +1,5 @@
 package com.joulebug
 
-import com.joulebug.MoveType.MoveType
-
 import scala.util.Random
 
 
@@ -101,7 +99,6 @@ object TicTacToe {
 
 
     //store move in array
-    //TODO: make sure we don't overwrite a non-blank value
     val row = grid(rowCoord)
     val updatedRow = row.updated(colCoord,move)
 
