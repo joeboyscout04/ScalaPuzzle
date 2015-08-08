@@ -20,6 +20,9 @@ class TicTacToeSpec extends FlatSpec with Matchers{
 
   "Check for winner with no winner" should "return false" in {
     TicTacToe.containsWinner should be === false
+
+    val losingGame = quickLoseGame
+    losingGame.containsWinner should be === false
   }
 
   "Check for winner with winner" should "return true" in {
@@ -157,6 +160,14 @@ class TicTacToeSpec extends FlatSpec with Matchers{
       case WinType.OCOL1 => List(oCol1Row0, oCol1Row1, oCol1Row2)
       case WinType.OCOL2 => List(oCol2Row0, oCol2Row1, oCol2Row2)
     }
+    game
+  }
+
+  def quickLoseGame = {
+    val game = TicTacToe
+    game.grid = List(List(MoveType.X,     MoveType.O,     MoveType.X),
+                     List(MoveType.X,     MoveType.Blank, MoveType.O),
+                     List(MoveType.Blank, MoveType.O,     MoveType.X))
     game
   }
 }

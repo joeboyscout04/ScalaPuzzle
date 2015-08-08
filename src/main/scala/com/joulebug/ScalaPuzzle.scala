@@ -120,18 +120,13 @@ object TicTacToe {
    * @return
    */
   def containsWinner:Boolean = {
-    /*
-     * Checks if set contains only a single element
-     * which is not equals to Blank
-     */
-    def setHelper(set: Set[MoveType.Value]): Boolean =
-      set.size == 1 && !set.contains(MoveType.Blank)
+    //checks if set contains only a single element which is not equals to Blank
+    def setHelper(set: Set[MoveType.Value]): Boolean = set.size == 1 && !set.contains(MoveType.Blank)
 
     //helpers for checking row, column, and diagonal wins
     def rowHelper(n: Int): Boolean = setHelper(grid(n).toSet)
 
-    def colHelper(n: Int): Boolean =
-      setHelper(List(grid(0)(n), grid(1)(0), grid(2)(n)).toSet)
+    def colHelper(n: Int): Boolean = setHelper(List(grid(0)(n), grid(1)(n), grid(2)(n)).toSet)
 
     def diagHelper: Boolean =
       setHelper(List(grid(0)(0), grid(1)(1), grid(2)(2)).toSet) ||
