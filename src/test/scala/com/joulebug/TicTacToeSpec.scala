@@ -1,6 +1,6 @@
 package com.joulebug
 
-import com.joulebug.tictactoe.{MoveType, GameGrid}
+import com.joulebug.tictactoe.{MoveType, Game}
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
@@ -20,10 +20,11 @@ class TicTacToeSpec extends FlatSpec with Matchers{
   }
 
   "Check for winner with no winner" should "return false" in {
-    TicTacToe.containsWinner should be === false
+    val losingGame0 = new Game
+    losingGame0.containsWinner should be === false
 
-    val losingGame = quickLoseGame
-    losingGame.containsWinner should be === false
+    val losingGame1 = quickLoseGame
+    losingGame1.containsWinner should be === false
   }
 
   "Check for winner with winner" should "return true" in {
@@ -83,7 +84,7 @@ class TicTacToeSpec extends FlatSpec with Matchers{
    * @return completed game with win type
    */
   private def quickWinGame(winType: WinType.Value) = {
-    val game = new GameGrid
+    val game = new Game
 
     val xRow = List.fill(3)(MoveType.X)
     val oRow = List.fill(3)(MoveType.O)
@@ -165,7 +166,7 @@ class TicTacToeSpec extends FlatSpec with Matchers{
   }
 
   def quickLoseGame = {
-    val game = TicTacToe
+    val game = new Game
     game.grid = List(List(MoveType.X,     MoveType.O,     MoveType.X),
                      List(MoveType.X,     MoveType.Blank, MoveType.O),
                      List(MoveType.Blank, MoveType.O,     MoveType.X))

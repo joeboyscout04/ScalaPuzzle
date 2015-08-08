@@ -2,6 +2,7 @@ package com.joulebug
 
 import com.joulebug.tictactoe.{Game, MoveType}
 
+import scala.annotation.tailrec
 import scala.util.Random
 
 /**
@@ -19,34 +20,31 @@ object TicTacToeRunner extends App {
 
   def startTicTacToe() {
     //start loop
-    var moveNumber = 1
-    var winnerFound = false
-    while (moveNumber <= 9 && !winnerFound) {
-
-      val modulo = moveNumber % 2
-      var currentPlayer = MoveType.Blank
-      println("Move number " + moveNumber + ".")
-
-      if (modulo > 0) currentPlayer = MoveType.X
-      else currentPlayer = MoveType.O
-
-      println("Make your move, Player " + currentPlayer.toString)
-      randomMove(currentPlayer)
-
-      println("Check for winner")
-      winnerFound = game.containsWinner
-
-      if (winnerFound) {
-        println("We found a winner!")
-        println("The winner was " + currentPlayer.toString + "!")
-      }
-
-      moveNumber += 1
-    }
-
+    gameLoop()
     //program over
     println("We're done!  Thanks for playing!")
     game.grid = game.emptyGrid
+  }
+
+  def gameLoop() {
+    @tailrec
+    def looper(currMove: Int, currPlayer: MoveType.Value, hasWinner: Boolean) {
+      if (hasWinner) {
+        println("Check for winner")
+        println("We found a winner!")
+        println("The winner was " + currPlayer.toString + "!")
+      } else {
+        println("Move number " + currMove + ".")
+        //assign player
+        val currentPlayer = if (currPlayer == MoveType.O) MoveType.X else MoveType.O
+
+        println("Make your move, Player " + currentPlayer.toString)
+        randomMove(currentPlayer)
+
+        looper(currMove + 1, currentPlayer, game.containsWinner)
+      }
+    }
+    looper(0, MoveType.X, game.containsWinner)
   }
 
   //make move for the player.
