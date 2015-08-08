@@ -10,12 +10,11 @@ import scala.util.Random
  */
 
 object MoveType extends Enumeration {
-  type MoveType = Value
+  type MoveType   = Value
   val X, O, Blank = Value
 }
 
 object TicTacToe {
-
 
   val blankList = List.fill(3)(MoveType.Blank)
   var grid:List[List[MoveType.Value]] = List.fill(3)(blankList)
@@ -53,8 +52,11 @@ object TicTacToe {
 
       println("Make your move, Player " + currentPlayer.toString)
       makeMove(currentPlayer)
+
       //check for winner
-      winnerFound = checkForWinner()
+      println("Check for winner")
+      winnerFound = containsWinner
+
       if (winnerFound) {
         println("We found a winner!")
         println("The winner was " + currentPlayer.toString + "!")
@@ -69,7 +71,7 @@ object TicTacToe {
   }
 
   //make move for the player.
-  def makeMove(move:MoveType.Value): Unit ={
+  def makeMove(move: MoveType.Value): Unit = {
     var rowCoord = -1
     var colCoord = -1
 
@@ -113,17 +115,29 @@ object TicTacToe {
     })
   }
 
-  def checkForWinner():Boolean = {
+  /**
+   * Checks if tic-tac-toe game contains a winner
+   * @return
+   */
+  def containsWinner:Boolean = {
+    /*
+     * Checks if set contains only a single element
+     * which is not equals to Blank
+     */
+    def setHelper(set: Set[MoveType.Value]): Boolean =
+      set.size == 1 && !set.contains(MoveType.Blank)
 
-    println("Check for winner")
-    (grid(0)(0) == grid(0)(1) && grid(0)(0) == grid(0)(2) && grid(0)(0) != MoveType.Blank) ||
-      (grid(1)(0) == grid(1)(1) && grid(1)(0) == grid(1)(2) && grid(1)(0) != MoveType.Blank) ||
-      (grid(2)(0) == grid(2)(1) && grid(2)(0) == grid(2)(2) && grid(2)(0) != MoveType.Blank) ||
-      (grid(0)(0) == grid(1)(1) && grid(0)(0) == grid(2)(2) && grid(0)(0) != MoveType.Blank) ||
-      (grid(0)(1) == grid(1)(1) && grid(0)(1) == grid(2)(1) && grid(0)(1) != MoveType.Blank) ||
-      (grid(0)(0) == grid(1)(0) && grid(0)(0) == grid(2)(0) && grid(0)(0) != MoveType.Blank) ||
-      (grid(0)(2) == grid(1)(2) && grid(0)(2) == grid(2)(2) && grid(0)(2) != MoveType.Blank) ||
-      (grid(2)(0) == grid(1)(1) && grid(2)(0) == grid(0)(2) && grid(2)(0) != MoveType.Blank)
+    //helpers for checking row, column, and diagonal wins
+    def rowHelper(n: Int): Boolean = setHelper(grid(n).toSet)
+
+    def colHelper(n: Int): Boolean =
+      setHelper(List(grid(0)(n), grid(1)(0), grid(2)(n)).toSet)
+
+    def diagHelper: Boolean =
+      setHelper(List(grid(0)(0), grid(1)(1), grid(2)(2)).toSet) ||
+      setHelper(List(grid(0)(2), grid(1)(1), grid(2)(0)).toSet)
+
+    //final check
+    rowHelper(0) || rowHelper(1) || rowHelper(2) || colHelper(0) || colHelper(1) || colHelper(2) || diagHelper
   }
-
 }

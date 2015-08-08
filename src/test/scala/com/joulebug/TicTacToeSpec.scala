@@ -13,45 +13,63 @@ class TicTacToeSpec extends FlatSpec with Matchers{
         OROW0, OROW1, OROW2,
         XCOL0, XCOL1, XCOL2,
         OCOL0, OCOL1, OCOL2,
-        XDIA1, XDIA2,
-        ODIA1, ODIA2
+        XDIA0, XDIA1,
+        ODIA0, ODIA1
         = Value
   }
 
   "Check for winner with no winner" should "return false" in {
-    TicTacToe.checkForWinner() should be === false
+    TicTacToe.containsWinner should be === false
   }
 
   "Check for winner with winner" should "return true" in {
     val gameX0 = quickWinGame(WinType.XROW0)
-    gameX0.checkForWinner() should be === true
+    gameX0.containsWinner should be === true
 
     val gameX1 = quickWinGame(WinType.XROW1)
-    gameX1.checkForWinner() should be === true
+    gameX1.containsWinner should be === true
 
     val gameX2 = quickWinGame(WinType.XROW2)
-    gameX2.checkForWinner() should be === true
+    gameX2.containsWinner should be === true
 
     val gameO0 = quickWinGame(WinType.OROW0)
-    gameO0.checkForWinner() should be === true
+    gameO0.containsWinner should be === true
 
     val gameO1 = quickWinGame(WinType.OROW1)
-    gameX1.checkForWinner() should be === true
+    gameO1.containsWinner should be === true
 
     val gameO2 = quickWinGame(WinType.OROW2)
-    gameO2.checkForWinner() should be === true
+    gameO2.containsWinner should be === true
 
-    val gameDiaX0 = quickWinGame(WinType.XDIA1)
-    gameDiaX0.checkForWinner() should be === true
+    val gameXCol0 = quickWinGame(WinType.XCOL0)
+    gameXCol0.containsWinner should be === true
 
-    val gameDiaX1 = quickWinGame(WinType.XDIA2)
-    gameDiaX1.checkForWinner() should be === true
+    val gameXCol1 = quickWinGame(WinType.XCOL1)
+    gameXCol1.containsWinner should be === true
 
-    val gameDiaO0 = quickWinGame(WinType.ODIA1)
-    gameDiaO0.checkForWinner() should be === true
+    val gameXCol2 = quickWinGame(WinType.XCOL2)
+    gameXCol2.containsWinner should be === true
 
-    val gameDiaO1 = quickWinGame(WinType.ODIA2)
-    gameDiaO1.checkForWinner() should be === true
+    val gameOCol0 = quickWinGame(WinType.OCOL0)
+    gameOCol0.containsWinner should be === true
+
+    val gameOCol1 = quickWinGame(WinType.OCOL1)
+    gameOCol1.containsWinner should be === true
+
+    val gameOCol2 = quickWinGame(WinType.OCOL2)
+    gameOCol2.containsWinner should be === true
+
+    val gameDiaX0 = quickWinGame(WinType.XDIA0)
+    gameDiaX0.containsWinner should be === true
+
+    val gameDiaX1 = quickWinGame(WinType.XDIA1)
+    gameDiaX1.containsWinner should be === true
+
+    val gameDiaO0 = quickWinGame(WinType.ODIA0)
+    gameDiaO0.containsWinner should be === true
+
+    val gameDiaO1 = quickWinGame(WinType.ODIA1)
+    gameDiaO1.containsWinner should be === true
   }
 
   /**
@@ -70,7 +88,7 @@ class TicTacToeSpec extends FlatSpec with Matchers{
      * Definitely some redundancy in here.. but whatever,
      * this is easy to reason about
      */
-    
+
     //diagX0
     val xDia0Row0 = List(MoveType.X, MoveType.O, MoveType.O)
     val xDia0Row1 = List(MoveType.O, MoveType.X, MoveType.O)
@@ -120,7 +138,7 @@ class TicTacToeSpec extends FlatSpec with Matchers{
     val oCol2Row0 = List(MoveType.X, MoveType.X, MoveType.O)
     val oCol2Row1 = List(MoveType.O, MoveType.X, MoveType.O)
     val oCol2Row2 = List(MoveType.O, MoveType.O, MoveType.O)
-
+    
     game.grid = winType match {
       case WinType.XROW0 => game.grid.updated(0, xRow)
       case WinType.XROW1 => game.grid.updated(1, xRow)
@@ -128,10 +146,10 @@ class TicTacToeSpec extends FlatSpec with Matchers{
       case WinType.OROW0 => game.grid.updated(0, oRow)
       case WinType.OROW1 => game.grid.updated(1, oRow)
       case WinType.OROW2 => game.grid.updated(2, oRow)
-      case WinType.XDIA1 => List(xDia0Row0, xDia0Row1, xDia0Row2)
-      case WinType.XDIA2 => List(xDia1Row0, xDia1Row1, xDia1Row2)
-      case WinType.ODIA1 => List(oDia0Row0, oDia0Row1, oDia0Row2)
-      case WinType.ODIA2 => List(oDia1Row0, oDia1Row1, oDia1Row2)
+      case WinType.XDIA0 => List(xDia0Row0, xDia0Row1, xDia0Row2)
+      case WinType.XDIA1 => List(xDia1Row0, xDia1Row1, xDia1Row2)
+      case WinType.ODIA0 => List(oDia0Row0, oDia0Row1, oDia0Row2)
+      case WinType.ODIA1 => List(oDia1Row0, oDia1Row1, oDia1Row2)
       case WinType.XCOL0 => List(xCol0Row0, xCol0Row1, xCol0Row2)
       case WinType.XCOL1 => List(xCol1Row0, xCol1Row1, xCol1Row2)
       case WinType.XCOL2 => List(xCol2Row0, xCol2Row1, xCol2Row2)
