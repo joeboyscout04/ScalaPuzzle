@@ -1,6 +1,7 @@
 package com.joulebug
 
 import com.joulebug.tictactoe.{MoveType, Game}
+
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
@@ -84,6 +85,7 @@ class TicTacToeSpec extends FlatSpec with Matchers{
    * @return completed game with win type
    */
   private def quickWinGame(winType: WinType.Value) = {
+
     val game = new Game
 
     val xRow = List.fill(3)(MoveType.X)
