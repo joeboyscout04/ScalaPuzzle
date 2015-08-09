@@ -46,11 +46,11 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
     //helpers for checking row, column, and diagonal wins
     def rowHelper(n: Int): Boolean = setHelper(_grid(n).toSet)
 
-    def colHelper(n: Int): Boolean = setHelper(List(_grid(0)(n), _grid(1)(n), _grid(2)(n)).toSet)
+    def colHelper(n: Int): Boolean = setHelper(List(_grid.head(n), _grid(1)(n), _grid(2)(n)).toSet)
 
     def diagHelper: Boolean =
-      setHelper(List(_grid(0)(0), _grid(1)(1), _grid(2)(2)).toSet) ||
-        setHelper(List(_grid(0)(2), _grid(1)(1), _grid(2)(0)).toSet)
+      setHelper(List(_grid.head.head, _grid(1)(1), _grid(2)(2)).toSet) ||
+        setHelper(List(_grid.head(2), _grid(1)(1), _grid(2).head).toSet)
 
     //final check
     rowHelper(0) || rowHelper(1) || rowHelper(2) || colHelper(0) || colHelper(1) || colHelper(2) || diagHelper
@@ -58,31 +58,15 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
 
   /**
    * List of coordinates of valid moves.
-   * TODO: get rid of all this state! :-)
    * @return
    */
   def validMoves: List[(Int, Int)] = {
-    var rowCoord = -1
-    var colCoord = -1
-
-    //list the valid coordinates
-    var validCoordinates:List[(Int,Int)] = List()
-
-    var rowNum = 0
-
-    _grid.foreach(row => {
-      var colNum = 0
-      row.foreach(col=>{
-        if(col == MoveType.Blank) {
-          validCoordinates +:= (rowNum,colNum)
-        }
-        colNum += 1
-      })
-      rowNum += 1
-    })
-
-    validCoordinates
-  }
+    for {
+      row <- 0 until _grid.size
+      col <- 0 until _grid(row).size
+      if _grid(row)(col) == MoveType.Blank
+    } yield (row, col)
+  }.toList
 }
 
 object MoveType extends Enumeration {
