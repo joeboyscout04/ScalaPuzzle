@@ -75,6 +75,38 @@ class TicTacToeSpec extends FlatSpec with Matchers{
     gameDiaO1.containsWinner should be === true
   }
 
+  "Valid moves" should "be a list of tuples representing the coordinates of valid moves in the game grid" in {
+    val game0 = new Game()
+    game0.validMoves should be === List((2,2),(2,1),(2,0),(1,2),(1,1),(1,0),(0,2),(0,1),(0,0))
+
+    val game1 = game0.updateGrid(0, 0, MoveType.X)
+    game1.validMoves should be === List((2,2),(2,1),(2,0),(1,2),(1,1),(1,0),(0,2),(0,1))
+
+    val game2 = game1.updateGrid(0, 1, MoveType.O)
+    game2.validMoves should be === List((2,2),(2,1),(2,0),(1,2),(1,1),(1,0),(0,2))
+
+    val game3 = game2.updateGrid(0, 2, MoveType.X)
+    game3.validMoves should be === List((2,2),(2,1),(2,0),(1,2),(1,1),(1,0))
+
+    val game4 = game3.updateGrid(1, 0, MoveType.O)
+    game4.validMoves should be === List((2,2),(2,1),(2,0),(1,2),(1,1))
+
+    val game5 = game4.updateGrid(1, 1, MoveType.X)
+    game5.validMoves should be === List((2,2),(2,1),(2,0),(1,2))
+
+    val game6 = game5.updateGrid(1, 2, MoveType.O)
+    game6.validMoves should be === List((2,2),(2,1),(2,0))
+
+    val game7 = game6.updateGrid(2, 0, MoveType.X)
+    game7.validMoves should be === List((2,2),(2,1))
+
+    val game8 = game7.updateGrid(2, 1, MoveType.O)
+    game8.validMoves should be === List((2,2))
+
+    val game9 = game8.updateGrid(2, 2, MoveType.X)
+    game9.validMoves should be === List()
+  }
+
   /**
    * Ugly helper method for quickly generating wins
    * by WinType.
