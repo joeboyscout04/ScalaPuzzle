@@ -10,8 +10,6 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
 
   type Grid = List[List[MoveType.Value]]
 
-  def emptyGrid:Grid = List.fill(3)(List.fill(3)(MoveType.Blank))
-
   def grid  = _grid
 
   /**
@@ -33,7 +31,19 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
    * Creates new game
    * @return
    */
-  def reset: Game = new Game(emptyGrid)
+  def reset: Game = new Game
+
+  /**
+   * List of coordinates of valid moves.
+   * @return
+   */
+  def validMoves: List[(Int, Int)] = {
+    for {
+      row <- 0 until _grid.size
+      col <- 0 until _grid(row).size
+      if _grid(row)(col) == MoveType.Blank
+    } yield (row, col)
+  }.toList
 
   /**
    * Checks if tic-tac-toe game contains a winner
@@ -55,18 +65,6 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
     //final check
     rowHelper(0) || rowHelper(1) || rowHelper(2) || colHelper(0) || colHelper(1) || colHelper(2) || diagHelper
   }
-
-  /**
-   * List of coordinates of valid moves.
-   * @return
-   */
-  def validMoves: List[(Int, Int)] = {
-    for {
-      row <- 0 until _grid.size
-      col <- 0 until _grid(row).size
-      if _grid(row)(col) == MoveType.Blank
-    } yield (row, col)
-  }.toList
 }
 
 object MoveType extends Enumeration {
