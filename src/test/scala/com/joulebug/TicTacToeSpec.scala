@@ -23,9 +23,6 @@ class TicTacToeSpec extends FlatSpec with Matchers{
   "Check for winner with no winner" should "return false" in {
     val losingGame0 = new Game
     losingGame0.containsWinner should be === false
-
-    val losingGame1 = quickLoseGame
-    losingGame1.containsWinner should be === false
   }
 
   "Check for winner with winner" should "return true" in {
@@ -85,93 +82,33 @@ class TicTacToeSpec extends FlatSpec with Matchers{
    * @return completed game with win type
    */
   private def quickWinGame(winType: WinType.Value) = {
-
     val game = new Game
 
-    val xRow = List.fill(3)(MoveType.X)
-    val oRow = List.fill(3)(MoveType.O)
+    //hacky helper
+    def winningGame(coords: List[(Int, Int)], move: MoveType.Value) =
+      game.updateGrid(coords(0)._1, coords(0)._2, MoveType.X)
+          .updateGrid(coords(1)._1, coords(1)._2, MoveType.X)
+          .updateGrid(coords(2)._1, coords(2)._2, MoveType.X)
 
-    /*
-     * Definitely some redundancy in here.. but whatever,
-     * this is easy to reason about
-     */
-
-    //diagX0
-    val xDia0Row0 = List(MoveType.X, MoveType.O, MoveType.O)
-    val xDia0Row1 = List(MoveType.O, MoveType.X, MoveType.O)
-    val xDia0Row2 = List(MoveType.X, MoveType.O, MoveType.X)
-
-    //diagX1
-    val xDia1Row0 = List(MoveType.O, MoveType.O, MoveType.X)
-    val xDia1Row1 = List(MoveType.O, MoveType.X, MoveType.O)
-    val xDia1Row2 = List(MoveType.X, MoveType.O, MoveType.X)
-
-    //diagO0
-    val oDia0Row0 = List(MoveType.O, MoveType.X, MoveType.X)
-    val oDia0Row1 = List(MoveType.O, MoveType.O, MoveType.O)
-    val oDia0Row2 = List(MoveType.X, MoveType.O, MoveType.O)
-
-    //diagO1
-    val oDia1Row0 = List(MoveType.O, MoveType.X, MoveType.O)
-    val oDia1Row1 = List(MoveType.X, MoveType.O, MoveType.O)
-    val oDia1Row2 = List(MoveType.O, MoveType.O, MoveType.X)
-
-    //colX0
-    val xCol0Row0 = List(MoveType.X, MoveType.X, MoveType.O)
-    val xCol0Row1 = List(MoveType.X, MoveType.O, MoveType.O)
-    val xCol0Row2 = List(MoveType.X, MoveType.O, MoveType.X)
-
-    //colX1
-    val xCol1Row0 = List(MoveType.X, MoveType.X, MoveType.O)
-    val xCol1Row1 = List(MoveType.O, MoveType.X, MoveType.O)
-    val xCol1Row2 = List(MoveType.X, MoveType.X, MoveType.X)
-
-    //colX2
-    val xCol2Row0 = List(MoveType.O, MoveType.X, MoveType.X)
-    val xCol2Row1 = List(MoveType.X, MoveType.O, MoveType.X)
-    val xCol2Row2 = List(MoveType.X, MoveType.O, MoveType.X)
-
-    //colO0
-    val oCol0Row0 = List(MoveType.O, MoveType.X, MoveType.O)
-    val oCol0Row1 = List(MoveType.O, MoveType.X, MoveType.O)
-    val oCol0Row2 = List(MoveType.O, MoveType.O, MoveType.X)
-
-    //colO1
-    val oCol1Row0 = List(MoveType.X, MoveType.O, MoveType.O)
-    val oCol1Row1 = List(MoveType.O, MoveType.O, MoveType.O)
-    val oCol1Row2 = List(MoveType.X, MoveType.O, MoveType.X)
-
-    //colO2
-    val oCol2Row0 = List(MoveType.X, MoveType.X, MoveType.O)
-    val oCol2Row1 = List(MoveType.O, MoveType.X, MoveType.O)
-    val oCol2Row2 = List(MoveType.O, MoveType.O, MoveType.O)
-    
-    game.grid = winType match {
-      case WinType.XROW0 => game.grid.updated(0, xRow)
-      case WinType.XROW1 => game.grid.updated(1, xRow)
-      case WinType.XROW2 => game.grid.updated(2, xRow)
-      case WinType.OROW0 => game.grid.updated(0, oRow)
-      case WinType.OROW1 => game.grid.updated(1, oRow)
-      case WinType.OROW2 => game.grid.updated(2, oRow)
-      case WinType.XDIA0 => List(xDia0Row0, xDia0Row1, xDia0Row2)
-      case WinType.XDIA1 => List(xDia1Row0, xDia1Row1, xDia1Row2)
-      case WinType.ODIA0 => List(oDia0Row0, oDia0Row1, oDia0Row2)
-      case WinType.ODIA1 => List(oDia1Row0, oDia1Row1, oDia1Row2)
-      case WinType.XCOL0 => List(xCol0Row0, xCol0Row1, xCol0Row2)
-      case WinType.XCOL1 => List(xCol1Row0, xCol1Row1, xCol1Row2)
-      case WinType.XCOL2 => List(xCol2Row0, xCol2Row1, xCol2Row2)
-      case WinType.OCOL0 => List(oCol0Row0, oCol0Row1, oCol0Row2)
-      case WinType.OCOL1 => List(oCol1Row0, oCol1Row1, oCol1Row2)
-      case WinType.OCOL2 => List(oCol2Row0, oCol2Row1, oCol2Row2)
+    //set game grid to win based on win type
+    winType match {
+      case WinType.XROW0 => winningGame(List((0,0),(0,1),(0,2)), MoveType.X)
+      case WinType.XROW1 => winningGame(List((1,0),(1,1),(1,2)), MoveType.X)
+      case WinType.XROW2 => winningGame(List((2,0),(2,1),(2,2)), MoveType.X)
+      case WinType.OROW0 => winningGame(List((0,0),(0,1),(0,2)), MoveType.O)
+      case WinType.OROW1 => winningGame(List((1,0),(1,1),(1,2)), MoveType.O)
+      case WinType.OROW2 => winningGame(List((2,0),(2,1),(2,2)), MoveType.O)
+      case WinType.XDIA0 => winningGame(List((0,0),(1,1),(2,2)), MoveType.X)
+      case WinType.XDIA1 => winningGame(List((0,2),(1,1),(2,0)), MoveType.X)
+      case WinType.ODIA0 => winningGame(List((0,0),(1,1),(2,2)), MoveType.O)
+      case WinType.ODIA1 => winningGame(List((0,2),(1,1),(2,0)), MoveType.O)
+      case WinType.XCOL0 => winningGame(List((0,0),(1,0),(2,0)), MoveType.X)
+      case WinType.XCOL1 => winningGame(List((0,1),(1,1),(2,1)), MoveType.X)
+      case WinType.XCOL2 => winningGame(List((0,2),(1,2),(2,2)), MoveType.X)
+      case WinType.OCOL0 => winningGame(List((0,0),(1,0),(2,0)), MoveType.O)
+      case WinType.OCOL1 => winningGame(List((0,1),(1,1),(2,1)), MoveType.O)
+      case WinType.OCOL2 => winningGame(List((0,2),(1,2),(2,2)), MoveType.O)
     }
-    game
-  }
-
-  def quickLoseGame = {
-    val game = new Game
-    game.grid = List(List(MoveType.X,     MoveType.O,     MoveType.X),
-                     List(MoveType.X,     MoveType.Blank, MoveType.O),
-                     List(MoveType.Blank, MoveType.O,     MoveType.X))
     game
   }
 }

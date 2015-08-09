@@ -23,9 +23,12 @@ object TicTacToeRunner extends App {
     gameLoop()
     //program over
     println("We're done!  Thanks for playing!")
-    game.grid = game.emptyGrid
+    game.reset
   }
 
+  /**
+   * Runs a game of tic-tac-toe
+   */
   def gameLoop() {
     @tailrec
     def looper(currMove: Int, currPlayer: MoveType.Value, hasWinner: Boolean) {
@@ -36,14 +39,15 @@ object TicTacToeRunner extends App {
       } else {
         println("Move number " + currMove + ".")
         //assign player
-        val currentPlayer = if (currPlayer == MoveType.O) MoveType.X else MoveType.O
+        val locPlayer = if (currPlayer == MoveType.O) MoveType.X else MoveType.O
 
-        println("Make your move, Player " + currentPlayer.toString)
-        randomMove(currentPlayer)
+        println("Make your move, Player " + locPlayer.toString)
+        randomMove(locPlayer)
 
-        looper(currMove + 1, currentPlayer, game.containsWinner)
+        looper(currMove + 1, locPlayer, game.containsWinner)
       }
     }
+    //run loop
     looper(0, MoveType.X, game.containsWinner)
   }
 
@@ -77,7 +81,7 @@ object TicTacToeRunner extends App {
       println("Something went wrong!")
     }
 
-    game.grid = game.updateGrid(rowCoord, colCoord, move)
+    game.updateGrid(rowCoord, colCoord, move)
     game.grid.foreach(row => { println(row.toString) })
   }
 
