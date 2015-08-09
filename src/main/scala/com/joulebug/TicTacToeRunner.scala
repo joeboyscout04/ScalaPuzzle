@@ -30,9 +30,9 @@ object TicTacToeRunner extends App {
     @tailrec
     def looper(game: Game, currMove: Int, currPlayer: MoveType.Value) {
       if (game.containsWinner) {
-        println("Check for winner")
-        println("We found a winner!")
-        println("The winner was " + currPlayer.toString + "!")
+        println(currPlayer.toString + " wins!")
+      } else if (currMove == 9) {
+        println("It was a draw!")
       } else {
         println("Move number " + currMove + ".")
         //assign player
@@ -49,37 +49,19 @@ object TicTacToeRunner extends App {
     looper(new Game, 0, MoveType.X)
   }
 
-  //make move for the player.
-  def randomMove(game: Game, move: MoveType.Value): Game = {
-    var rowCoord = -1
-    var colCoord = -1
-
-    //list the valid coordinates
-    var validCoordinates:List[(Int,Int)] = List()
-
-    var rowNum = 0
-
-    game.grid.foreach(row => {
-      var colNum = 0
-      row.foreach(col=>{
-        if(col == MoveType.Blank) {
-          validCoordinates +:= (rowNum,colNum)
-        }
-        colNum += 1
-      })
-      rowNum += 1
-    })
-
-    //pick a random one from the valid list.
-    val randomCoord = Random.shuffle(validCoordinates).headOption
-    if(randomCoord.isDefined) {
-      rowCoord = randomCoord.get._1
-      colCoord = randomCoord.get._2
-    } else {
-      println("Something went wrong!")
-    }
-
-    game.updateGrid(rowCoord, colCoord, move)
+  /**
+   * Make random move from available moves.
+   * @param game current game
+   * @param move move (X or O)
+   * @return updated game
+   */
+  def randomMove(game: Game, move: MoveType.Value): Game =
+    Random.shuffle(game.validMoves).headOption match {
+      case Some(coords) => game.updateGrid(coords._1, coords._2, move)
+      case _            => {
+        println("Something went wrong!")
+        game
+      }
   }
 
   //run game
