@@ -58,10 +58,7 @@ object TicTacToeRunner extends App {
   def randomMove(game: Game, move: MoveType.Value): Game =
     Random.shuffle(game.validMoves).headOption match {
       case Some(coords) => game.updateGrid(coords._1, coords._2, move)
-      case _            => {
-        println("Something went wrong!")
-        game
-      }
+      case _            => game
   }
 
   //run game
