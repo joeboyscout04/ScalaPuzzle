@@ -16,14 +16,11 @@ import scala.util.Random
 
 object TicTacToeRunner extends App {
 
-  val game = new Game
-
   def startTicTacToe() {
     //start loop
     gameLoop()
     //program over
     println("We're done!  Thanks for playing!")
-    game.reset
   }
 
   /**
@@ -31,8 +28,8 @@ object TicTacToeRunner extends App {
    */
   def gameLoop() {
     @tailrec
-    def looper(currMove: Int, currPlayer: MoveType.Value, hasWinner: Boolean) {
-      if (hasWinner) {
+    def looper(game: Game, currMove: Int, currPlayer: MoveType.Value) {
+      if (game.containsWinner) {
         println("Check for winner")
         println("We found a winner!")
         println("The winner was " + currPlayer.toString + "!")
@@ -42,17 +39,18 @@ object TicTacToeRunner extends App {
         val locPlayer = if (currPlayer == MoveType.O) MoveType.X else MoveType.O
 
         println("Make your move, Player " + locPlayer.toString)
-        randomMove(locPlayer)
 
-        looper(currMove + 1, locPlayer, game.containsWinner)
+        val updatedGame = randomMove(game, locPlayer)
+        updatedGame.grid.foreach(row => { println(row.toString) })
+        looper(updatedGame, currMove + 1, locPlayer)
       }
     }
     //run loop
-    looper(0, MoveType.X, game.containsWinner)
+    looper(new Game, 0, MoveType.X)
   }
 
   //make move for the player.
-  def randomMove(move: MoveType.Value): Unit = {
+  def randomMove(game: Game, move: MoveType.Value): Game = {
     var rowCoord = -1
     var colCoord = -1
 
@@ -82,7 +80,6 @@ object TicTacToeRunner extends App {
     }
 
     game.updateGrid(rowCoord, colCoord, move)
-    game.grid.foreach(row => { println(row.toString) })
   }
 
   //run game

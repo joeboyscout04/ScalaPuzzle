@@ -1,6 +1,6 @@
 package com.joulebug
 
-import com.joulebug.tictactoe.{MoveType, Game}
+import com.joulebug.tictactoe.{Game, MoveType}
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -82,13 +82,11 @@ class TicTacToeSpec extends FlatSpec with Matchers{
    * @return completed game with win type
    */
   private def quickWinGame(winType: WinType.Value) = {
-    val game = new Game
-
     //hacky helper
     def winningGame(coords: List[(Int, Int)], move: MoveType.Value) =
-      game.updateGrid(coords(0)._1, coords(0)._2, MoveType.X)
-          .updateGrid(coords(1)._1, coords(1)._2, MoveType.X)
-          .updateGrid(coords(2)._1, coords(2)._2, MoveType.X)
+      (new Game).updateGrid(coords(0)._1, coords(0)._2, MoveType.X)
+                .updateGrid(coords(1)._1, coords(1)._2, MoveType.X)
+                .updateGrid(coords(2)._1, coords(2)._2, MoveType.X)
 
     //set game grid to win based on win type
     winType match {
@@ -109,6 +107,5 @@ class TicTacToeSpec extends FlatSpec with Matchers{
       case WinType.OCOL1 => winningGame(List((0,1),(1,1),(2,1)), MoveType.O)
       case WinType.OCOL2 => winningGame(List((0,2),(1,2),(2,2)), MoveType.O)
     }
-    game
   }
 }
