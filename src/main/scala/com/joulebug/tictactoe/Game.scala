@@ -55,6 +55,34 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
     //final check
     rowHelper(0) || rowHelper(1) || rowHelper(2) || colHelper(0) || colHelper(1) || colHelper(2) || diagHelper
   }
+
+  /**
+   * List of coordinates of valid moves.
+   * TODO: get rid of all this state! :-)
+   * @return
+   */
+  def validMoves: List[(Int, Int)] = {
+    var rowCoord = -1
+    var colCoord = -1
+
+    //list the valid coordinates
+    var validCoordinates:List[(Int,Int)] = List()
+
+    var rowNum = 0
+
+    _grid.foreach(row => {
+      var colNum = 0
+      row.foreach(col=>{
+        if(col == MoveType.Blank) {
+          validCoordinates +:= (rowNum,colNum)
+        }
+        colNum += 1
+      })
+      rowNum += 1
+    })
+
+    validCoordinates
+  }
 }
 
 object MoveType extends Enumeration {
