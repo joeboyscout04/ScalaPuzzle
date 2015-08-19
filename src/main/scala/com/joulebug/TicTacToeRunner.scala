@@ -67,6 +67,7 @@ object TicTacToeRunner extends App {
    * Make user move.
    * @param move
    */
+  @tailrec
   def userMove(game: Game, move:MoveType.Value): Game = {
     println("Make your move! [0-2],[0-2]")
     //TODO: Error handling
