@@ -23,8 +23,8 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
     //store move in array
     //TODO: make sure we don't overwrite a non-blank value
     val row        = _grid(rowCoord)
-    val updatedRow = row.updated(colCoord,move)
-    new Game(_grid.updated(rowCoord,updatedRow))
+    val updatedRow = row.updated(colCoord, move)
+    new Game(_grid.updated(rowCoord, updatedRow))
   }
 
   /**
