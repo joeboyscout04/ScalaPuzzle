@@ -20,7 +20,6 @@ object TicTacToeRunner extends App {
   def startTicTacToe() {
     println("Let's play Tic-Tac-Toe!\n1) human game\n2) random game")
     gameLoop(StdIn.readLine().toInt)
-    //program over
     println("We're done!  Thanks for playing!")
   }
 
