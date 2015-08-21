@@ -15,7 +15,7 @@ import scala.io._
  * Created by josephelliott on 8/3/15.
  */
 
-object TicTacToeRunner extends App {
+class GameRunner {
 
   def startTicTacToe() {
     println("Let's play Tic-Tac-Toe!\n1) human game\n2) random game")
@@ -66,8 +66,7 @@ object TicTacToeRunner extends App {
    * Make user move.
    * @param move
    */
-  @tailrec
-  def userMove(game: Game, move:MoveType.Value): Game = {
+  def userMove(game: Game, move: MoveType.Value): Game = {
     println("Make your move! [0-2],[0-2]")
     //TODO: Error handling
     val coordinates = StdIn.readLine().split(",")
@@ -81,7 +80,10 @@ object TicTacToeRunner extends App {
       userMove(game, move)
     }
   }
+}
 
+object Main extends App {
   //run game
-  startTicTacToe()
+  val runner = new GameRunner
+  runner.startTicTacToe()
 }
