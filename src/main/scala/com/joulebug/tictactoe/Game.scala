@@ -65,6 +65,20 @@ class Game(_grid:List[List[MoveType.Value]] = List.fill(3)(List.fill(3)(MoveType
     //final check
     rowHelper(0) || rowHelper(1) || rowHelper(2) || colHelper(0) || colHelper(1) || colHelper(2) || diagHelper
   }
+
+  /**
+   * Creates a crude String representation of current grid
+   * state.
+   * @return
+   */
+  def gridToString(): String = _grid.foldRight("") { (row, acc0) =>
+    val rowString = row.foldRight("")((col, acc1) => col match {
+      case MoveType.Blank => " - | " + acc1
+      case _              => " " + col + " | " + acc1
+
+    })
+    rowString + "\n-----------------\n" + acc0
+  }
 }
 
 object MoveType extends Enumeration {

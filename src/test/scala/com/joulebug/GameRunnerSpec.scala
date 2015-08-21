@@ -7,10 +7,10 @@ import org.scalatest.{FlatSpec, Matchers}
  * Created by nmiano on 8/20/15.
  */
 class GameRunnerSpec extends FlatSpec with Matchers with GameFlatSpecUtil {
-  "UserMove" should "" in {
-    val game = new Game
-    val runner = new GameRunner
+  val game = new Game
+  val runner = new GameRunner
 
+  "RandomMove" should "add a MoveType of either X or O to a random spot in the grid" in {
     val moveOne = runner.randomMove(game, MoveType.X)
     gridToSortedList(moveOne.grid) should be === List(MoveType.X)
 

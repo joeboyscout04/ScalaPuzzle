@@ -38,7 +38,7 @@ class GameRunner {
         println("Make your move, Player " + locPlayer.toString)
 
         val updatedGame = moveFunc(game, locPlayer)
-        updatedGame.grid.foreach(row => { println(row.toString()) })
+        println(updatedGame.gridToString())
         looper(updatedGame, currMove + 1, moveFunc, locPlayer)
       }
     }
@@ -67,9 +67,8 @@ class GameRunner {
    * @param move
    */
   def userMove(game: Game, move: MoveType.Value): Game = {
-    println("Make your move! [0-2],[0-2]")
     //TODO: Error handling
-    val coordinates = StdIn.readLine().split(",")
+    val coordinates = StdIn.readLine("Make your move! [0-2],[0-2]\n").split(",")
     val rowCoord = coordinates(0).toInt
     val colCoord = coordinates(1).toInt
 
